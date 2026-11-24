@@ -6,12 +6,12 @@ function fallback(){window.city3DActive=false;walkPad.hidden=true;document.getEl
 btn("viewToggle",()=>{wanted=!wanted;if(view){if(wanted){canvas3.hidden=false;window.city3DActive=true;document.getElementById("streetView").disabled=false;status.textContent="ATLAS BAY · REALTIME 3D";document.getElementById("viewToggle").textContent="2D view"}else fallback()}else{wanted=true;status.textContent="3D unavailable · 2D mode"}});
 async function boot(){
 let T;
-try{T=await import("https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js")}catch(e){try{T=await import("https://unpkg.com/three@0.170.0/build/three.module.js")}catch(e2){fallback();return}}
+try{T=await import("../vendor/three.module.min.js")}catch(e){console.warn("Local 3D engine unavailable",e);fallback();return}
 try{
 const scene=new T.Scene(), camera=new T.PerspectiveCamera(43,1,.1,180);
-const renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:"high-performance"});
+const renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:"high-performance"});window.cityRendererVersion=T.REVISION;
 canvas3=renderer.domElement;canvas3.id="city3d";canvas3.setAttribute("aria-label","Interactive 3D city, drag to orbit or click to inspect");canvas3.tabIndex=0;viewport.insertBefore(canvas3,viewport.children[1]);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.65));renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.65));renderer.shadowMap.enabled=true;const quality=document.getElementById("quality");function setQuality(){const v=quality.value;renderer.setPixelRatio(v==="low"?1:Math.min(window.devicePixelRatio||1,v==="high"?2:1.5));renderer.shadowMap.enabled=v!=="low";renderer.shadowMap.needsUpdate=true;renderer.setSize(Math.max(1,viewport.clientWidth),Math.max(1,viewport.clientHeight),false)}quality.addEventListener("change",setQuality);setQuality();renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;
 scene.background=new T.Color("#9dbccd");scene.fog=new T.FogExp2("#9dbccd",.013);
 const sky=new T.HemisphereLight("#d8edff","#64765e",2.15);scene.add(sky);
 const sun=new T.DirectionalLight("#fff1d2",3.1);sun.position.set(-12,24,15);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-13;sun.shadow.camera.right=13;sun.shadow.camera.top=13;sun.shadow.camera.bottom=-13;sun.shadow.camera.near=1;sun.shadow.camera.far=65;sun.shadow.normalBias=.035;sun.shadow.bias=-.0001;scene.add(sun);
@@ -100,7 +100,7 @@ let aa=game.state.agents;agentMesh.count=Math.min(aa.length,agentCapacity);heads
 for(let i=0;i<agentMesh.count;i++){let a=aa[i];visualPosition(a,dt);dummy.position.set(a.x-center,.09,a.y-center);dummy.rotation.set(0,0,0);dummy.scale.set(.029,.070,.023);dummy.updateMatrix();agentMesh.setMatrixAt(i,dummy.matrix);agentMesh.setColorAt(i,colors[a.action]||defaultColor);dummy.position.y=.182;dummy.scale.set(.028,.032,.028);dummy.updateMatrix();heads.setMatrixAt(i,dummy.matrix)}agentMesh.instanceMatrix.needsUpdate=true;heads.instanceMatrix.needsUpdate=true;if(agentMesh.instanceColor)agentMesh.instanceColor.needsUpdate=true;
 trafficTime+=dt*(speed?Math.min(speed,3):0);const lanes=[];for(let k=3;k<n;k+=5)lanes.push(k);const demand=Math.min(carMeshes.length,Math.max(2,Math.ceil(game.state.traffic.last/3)));carMeshes.forEach((c,i)=>{c.visible=i<demand;if(!c.visible)return;let horizontal=i%2===0,lane=lanes[Math.floor(i/2)%lanes.length],dir=i%3===0?-1:1,p=((trafficTime*(.42+i%3*.09)+i*1.71)%n);if(dir<0)p=n-p;if(horizontal){c.position.set(p-center,.03,lane+.5-center+dir*.19);c.rotation.y=dir*Math.PI/2}else{c.position.set(lane+.5-center-dir*.19,.03,p-center);c.rotation.y=dir<0?Math.PI:0}});
 marker.visible=!!selected;if(selected){if(selected.type==="tile"){let t=game.state.tiles[selected.id];if(t)marker.position.set(t.x+.5-center,.065,t.y+.5-center)}else{let a=aa.find(x=>x.id===selected.id);if(a)marker.position.set(a.x-center,.065,a.y-center);else marker.visible=false}}
-cameraUpdate();renderer.render(scene,camera)
+cameraUpdate();renderer.render(scene,camera);window.cityRenderedFrames=(window.cityRenderedFrames||0)+1
 }catch(e){console.warn("3D rendering fell back to 2D",e);fallback()}}
 view={renderer};resetCamera();document.getElementById("streetView").disabled=!wanted;window.city3DActive=wanted;canvas3.hidden=!wanted;status.textContent=wanted?"ATLAS BAY · REALTIME 3D":"CITY VIEW · 2D MODE";document.getElementById("viewToggle").textContent=wanted?"2D view":"Enable 3D";canvas3.addEventListener("webglcontextlost",e=>{e.preventDefault();fallback()});requestAnimationFrame(animate)
 }catch(e){console.warn("3D initialization failed",e);fallback()}
