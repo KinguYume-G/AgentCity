@@ -45,3 +45,8 @@ test('weighted A-star returns adjacent route nodes',()=>{
 });
 test('transport policy clamps values',()=>{const e=make();e.transport(99,-5);assert.equal(e.state.transit,12);assert.equal(e.state.rentPolicy,0)});
 test('malformed or unsafe import rejected',()=>{const e=make();const data=e.snapshot();data.agents[0].name='<img src=x>';assert.equal(e.load(data),false)});
+
+test('development upgrades increase capacity and cost money',()=>{const e=make();const t=e.state.tiles.find(t=>t.type==='home');const b=e.state.treasury,c=e.capacity(t),cost=e.upgradeCost(t.id);assert.ok(e.upgrade(t.id));assert.equal(e.capacity(t),c*2);assert.ok(e.state.treasury>=b-cost);assert.equal(e.demolish(e.state.agents[0].home),false)});
+test('new utility increases electricity availability and demolition restores it',()=>{const e=make(2048,'metro');const t=e.state.tiles.find(t=>t.type==='empty');const before=e.stats().power;assert.ok(e.build(t.id,'utility'));assert.ok(e.stats().power>before);assert.ok(e.demolish(t.id));assert.equal(e.stats().power,before)});
+test('environment policy reduces pollution',()=>{const e=make(2048,'metro');e.greenPolicy(0);const before=e.stats().pollution;e.greenPolicy(15);assert.ok(e.stats().pollution<before)});
+test('schools improve local education coverage',()=>{const e=make();const t=e.state.tiles.find(t=>t.type==='empty');const before=e.stats().educationCoverage;assert.ok(e.build(t.id,'school'));assert.ok(e.stats().educationCoverage>=before)});
