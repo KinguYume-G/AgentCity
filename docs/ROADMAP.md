@@ -10,6 +10,8 @@
 
 - 0.6: building development and demolition, power supply, education, local pollution and service coverage, environment policies, data overlays and milestone rewards.
 
+- 0.7: map-first responsive UI, touch navigation, contextual inspection and settings, explicit construction confirmation, pinch zoom and two-finger pan.
+
 ## Remaining
 - Dedicated vehicle and pedestrian road networks, intersection logic and transit routes.
 - Full family relationships and life cycles, business formation, detailed housing and labor market.
