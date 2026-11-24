@@ -47,7 +47,7 @@ function visualPosition(ag,dt=.016){
  if(!track.points.length){let ox=.18+ag.id*17%67/100,oy=.17+ag.id*31%63/100;let k=1-Math.exp(-dt*4);ag.x+=(tile.x+ox-ag.x)*k;ag.y+=(tile.y+oy-ag.y)*k}
 }
 window.addEventListener("worldchanged",()=>visualTracks.clear());
-function layerColor(id){let layer=$("mapLayer").value;if(layer==="none")return null;let value=game.environmentMap()[id][layer],v=layer==="pollution"?value/100:1-value;return "hsl("+Math.round(125*(1-v))+" 75% 48%)"}
+function layerColor(id){let layer=$("mapLayer").value;if(layer==="none")return null;let value=game.environmentMap()[id][layer],v=layer==="pollution"?value/100:1-value;return "hsl("+Math.round(125*(1-v))+", 75%, 48%)"}
 $("mapLayer").onchange=()=>{let layer=$("mapLayer").value;$("layerHint").hidden=layer==="none";$("layerHint").textContent=layer==="pollution"?"Green: low pollution · Red: high pollution":"Green: high coverage · Red: low coverage"};
 function draw(now){let {w,h}=resize(world,ctx),s=game.state,n=game.n;ctx.clearRect(0,0,w,h);let g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,"#183332");g.addColorStop(1,"#102422");ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
  let a=Math.min(w/(2*n+3),h/(n*.98+3.8)),b=a*.48;projection={a,b,ox:w/2,oy:(h-2*n*b)/2+a*.7};
