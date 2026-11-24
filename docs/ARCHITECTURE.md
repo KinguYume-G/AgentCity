@@ -17,7 +17,7 @@ Markets maintain stock and business capital. Work produces abstract output and w
 - renderer3d.js: procedural geometry, instanced rendering, camera, lighting and selection.
 - styles.css: responsive interface.
 
-Render updates do not advance the simulation clock. Visual cars are decorative; individual travel and network congestion are future work. Resident decisions are utility-based, not language model inference.
+Render updates do not advance the simulation clock. Weighted A* paths favor roads and open plots; trip progression takes simulated hours and transit funding affects speed. Road demand is aggregated per tick. Vehicle motion is a visual representation, not a full traffic model. Household groups have up to three co-residents, with daily rent and periodic age progression. The street camera allows movement on roads and open spaces. Local dialogue uses deterministic templates from resident state. Resident decisions are utility-based, not language model inference.
 
 ## Testing and deployment
 
