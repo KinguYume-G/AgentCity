@@ -2,11 +2,11 @@
 
 A browser-based 3D city simulator with autonomous residents, utility-based decision-making and a simplified local economy.
 
-**Version 0.4 — Living World**
+**Version 0.5 — Global Edition**
 
 - [Play on GitHub Pages](https://kinguyume-g.github.io/AgentCity/)
 - [Architecture](docs/ARCHITECTURE.md)
-- [Roadmap](docs/ROADMAP.md)
+- [Roadmap](docs/ROADMAP.md) · [Deployment and global testing](docs/DEPLOYMENT.md)
 
 ## Features
 
@@ -27,7 +27,7 @@ No build step or npm install required. From the repository root:
 python3 -m http.server 8080
 ```
 
-Open http://localhost:8080. Three.js 0.170.0 is loaded from a public CDN for 3D; a 2D fallback is available if that fails.
+Open http://localhost:8080. Three.js 0.170.0 is served from the repository itself, with no runtime CDN dependencies. A 2D fallback is available for devices without WebGL. Autosave, quality controls and a service worker support resilient play after an initial successful load.
 
 ## Test
 
