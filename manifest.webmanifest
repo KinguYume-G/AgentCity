@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "Agent City — Atlas Bay",
+  "short_name": "Agent City",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0c121d",
+  "theme_color": "#101a29",
+  "description": "Build and explore a living autonomous city.",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
