@@ -6,6 +6,8 @@
 - 0.3: inventory, business capital, output, social contacts, decision inspector, portable saves, modular source.
 - 0.4: weighted A* grid routing, trip duration, transit policy, aggregate road demand, household groups and rent, age progression, four seeded scenarios, 13×13 and 19×19 maps, first-person walking, weather, local resident conversations, resident search, advisor and objectives.
 
+- 0.5: same-origin 3D library, graphics quality, autosave, offline cache, system diagnostics, and browser/global probe workflows. Actual multi-region and browser results must be checked in Actions.
+
 ## Remaining
 - Dedicated vehicle and pedestrian road networks, intersection logic and transit routes.
 - Full family relationships and life cycles, business formation, detailed housing and labor market.
