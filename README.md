@@ -2,13 +2,15 @@
 
 A browser-based 3D city simulator with autonomous residents, utility-based decision-making and a simplified local economy.
 
-**Version 0.6 — City Builder**
+**Version 0.7 — Player Experience**
 
 - [Play on GitHub Pages](https://kinguyume-g.github.io/AgentCity/)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Roadmap](docs/ROADMAP.md) · [Deployment and global testing](docs/DEPLOYMENT.md)
 
 ## Features
+
+- Map-first game shell, compact HUD, touch navigation, contextual mobile sheets, two-step construction placement, multi-touch camera controls and on-demand reports.
 
 - Three building levels, demolition of unoccupied plots, schools and clean-energy stations, pollution and facility coverage maps, environmental funding, livability score and one-time milestone rewards.
 
