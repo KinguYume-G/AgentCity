@@ -28,3 +28,20 @@ test('old version-one saves are upgraded',()=>{
  assert.ok(e.load(s));e.step();assert.ok(Number.isFinite(e.stats().food));
 });
 test('invalid saves are rejected',()=>{assert.equal(make().load(null),false);assert.equal(make().load({version:99}),false)});
+
+test('four scenarios and metro grid remain finite over 30 days',()=>{
+ for(const mode of ['balanced','frontier','recovery','metro']){
+  const e=make(2048,mode);assert.equal(e.n,mode==='metro'?19:13);
+  for(let i=0;i<720;i++)e.step();
+  assert.ok(Object.values(e.stats()).every(Number.isFinite));
+  assert.ok(e.state.traffic.trips>0);assert.ok(e.stats().households>0);
+  const f=make();assert.ok(f.load(e.snapshot()));e.step();f.step();
+  assert.equal(JSON.stringify(e.snapshot()),JSON.stringify(f.snapshot()));
+ }
+});
+test('weighted A-star returns adjacent route nodes',()=>{
+ const e=make(2048,'metro');let from=0,to=e.n*e.n-1,route=e.findRoute(from,to),p=e.state.tiles[from];
+ assert.equal(route.at(-1),to);for(const id of route){const q=e.state.tiles[id];assert.equal(Math.abs(q.x-p.x)+Math.abs(q.y-p.y),1);p=q}
+});
+test('transport policy clamps values',()=>{const e=make();e.transport(99,-5);assert.equal(e.state.transit,12);assert.equal(e.state.rentPolicy,0)});
+test('malformed or unsafe import rejected',()=>{const e=make();const data=e.snapshot();data.agents[0].name='<img src=x>';assert.equal(e.load(data),false)});
