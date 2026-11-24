@@ -1,0 +1,32 @@
+name: Public site & global reachability
+on:
+  workflow_dispatch:
+  deployment_status:
+permissions:
+  contents: read
+jobs:
+  global:
+    if: github.event_name == 'workflow_dispatch' || (github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'github-pages')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify public HTTPS and asset paths
+        run: |
+          curl -fsSL --retry 4 --max-time 30 https://kinguyume-g.github.io/AgentCity/ -o /tmp/agentcity.html
+          grep -q 'AGENT CITY' /tmp/agentcity.html
+          for asset in src/engine.js src/app.js src/renderer3d.js src/styles.css vendor/three.module.min.js sw.js manifest.webmanifest; do
+            curl -fsSL --retry 3 --max-time 30 "https://kinguyume-g.github.io/AgentCity/$asset" -o /dev/null
+          done
+      - name: Sample public HTTPS from nine countries
+        if: always()
+        run: node tests/global-access.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: global-access-results
+          path: global-access-results.json
+          if-no-files-found: warn
