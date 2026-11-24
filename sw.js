@@ -1,6 +1,6 @@
 /* Offline cache is scoped to this application, not other GitHub Pages projects. */
-const CACHE="agentcity-global-v06";
-const ASSETS=["./","./index.html","./src/engine.js?v=06","./src/app.js?v=06","./src/renderer3d.js?v=06","./src/styles.css?v=06","./src/offline.js?v=06","./vendor/three.module.min.js","./manifest.webmanifest","./icon.svg"];
+const CACHE="agentcity-global-v07";
+const ASSETS=["./","./index.html","./src/engine.js?v=07","./src/app.js?v=07","./src/renderer3d.js?v=07","./src/styles.css?v=07","./src/offline.js?v=07","./vendor/three.module.min.js","./manifest.webmanifest","./icon.svg"];
 self.addEventListener("install",event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE);await cache.addAll(ASSETS.map(p=>new Request(new URL(p,self.registration.scope),{cache:"reload"})));await self.skipWaiting()})())});
 self.addEventListener("activate",event=>{event.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith("agentcity-global-")&&key!==CACHE)await caches.delete(key);await self.clients.claim()})())});
 self.addEventListener("fetch",event=>{
