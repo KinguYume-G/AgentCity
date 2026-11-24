@@ -8,6 +8,8 @@
 
 - 0.5: same-origin 3D library, graphics quality, autosave, offline cache, system diagnostics, and browser/global probe workflows. Actual multi-region and browser results must be checked in Actions.
 
+- 0.6: building development and demolition, power supply, education, local pollution and service coverage, environment policies, data overlays and milestone rewards.
+
 ## Remaining
 - Dedicated vehicle and pedestrian road networks, intersection logic and transit routes.
 - Full family relationships and life cycles, business formation, detailed housing and labor market.
