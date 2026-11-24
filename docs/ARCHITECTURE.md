@@ -1,6 +1,6 @@
 # Architecture
 
-The static application runs entirely on each player's device. No account, server, database or LLM API is required. Three.js is loaded from a pinned CDN URL; Canvas 2D is the fallback.
+The static application runs entirely on each player's device. No account, server, database or LLM API is required. Three.js r170 is served as a vendored same-origin module; Canvas 2D is the fallback. The service worker caches versioned assets within the project scope.
 
 ## Simulation loop
 
